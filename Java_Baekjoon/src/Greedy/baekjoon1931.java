@@ -1,6 +1,7 @@
 package Greedy;
 
 // Runtime Error.
+// 배열 메모리 초과?..... -> 다시 해보기.
 
 import java.util.Scanner;
 
@@ -9,7 +10,7 @@ public class baekjoon1931 {
         Scanner sc = new Scanner(System.in);
 
         int n = sc.nextInt();
-        int[][] rooms = new int[2][n];
+        int[][] rooms = new int[2][n + 1];
 
         for (int i = 0; i < n; i++) {
             rooms[0][i] = sc.nextInt();
