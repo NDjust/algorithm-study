@@ -21,9 +21,9 @@ public class BinarySearch {
     }
 
     public static void main(String[] args) {
+        int[] a = {1, 3, 5, 7, 9, 11, 13};
         Scanner sc = new Scanner(System.in);
         int t = Integer.parseInt(sc.nextLine());
-        int[] a = {1, 3, 5, 7, 9, 11, 13};
 
         if (Search(a, t) == -1) {
             System.out.println("Not Found!");
