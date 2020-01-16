@@ -2,7 +2,7 @@ package DivideConquer;
 
 import java.util.Scanner;
 
-public class baekjoon {
+public class baekjoon10870 {
     public static int fibo(int n) {
         if (n == 0) {
             return 0;
