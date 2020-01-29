@@ -1,6 +1,8 @@
 package DataStructure;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Scanner;
 
 public class baekjoon2164 {
@@ -8,22 +10,17 @@ public class baekjoon2164 {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
-        ArrayList<Integer> a = new ArrayList<Integer>();
+        Queue<Integer> q = new LinkedList<Integer>();
 
         for (int i = 0; i < n; i++) {
-            if ((i + 1) % 2 == 0) {
-                a.add(i + 1);
-            } else {
-
-            }
+            q.add(i + 1);
         }
 
-        while (a.size() > 2) {
-            a.remove(0);
-            int k = a.remove(0);
-            a.add(k);
+        while (q.size() != 1) {
+            q.remove();
+            int a = q.remove();
+            q.add(a);
         }
-
-        System.out.println(a.get(1));
+        System.out.println(q.peek());
     }
 }
