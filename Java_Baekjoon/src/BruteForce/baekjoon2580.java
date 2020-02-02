@@ -26,7 +26,7 @@ public class baekjoon2580 {
             return go(a, c, z + 1);
         }  else {
             for (int i = 1; i <= 9; i++) {
-                if (!c[0][x][i] && !c[1][y][1] && !c[2][square(x, y)][i]) {
+                if (!c[0][x][i] && !c[1][y][i] && !c[2][square(x, y)][i]) {
                     c[0][x][i] = c[1][y][i] = c[2][square(x, y)][i] = true;
                     a[x][y] = i;
 
