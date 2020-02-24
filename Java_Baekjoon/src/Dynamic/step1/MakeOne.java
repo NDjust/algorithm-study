@@ -18,7 +18,7 @@ Dynamic은 D에 넣어서 적용!
 
 시간 복잡도  O(N)
  */
-package Dynamic;
+package Dynamic.step1;
 
 public class MakeOne {
     public static void main(String[] args) {

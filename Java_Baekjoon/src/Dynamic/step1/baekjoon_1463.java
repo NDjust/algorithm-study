@@ -1,4 +1,4 @@
-package Dynamic;/*
+package Dynamic.step1;/*
 * BaekJoon https://www.acmicpc.net/problem/1463
 * */
 

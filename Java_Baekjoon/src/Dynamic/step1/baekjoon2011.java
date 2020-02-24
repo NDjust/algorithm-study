@@ -1,6 +1,6 @@
 /* https://www.acmicpc.net/problem/2011
 * */
-package Dynamic;
+package Dynamic.step1;
 
 import java.util.Scanner;
 

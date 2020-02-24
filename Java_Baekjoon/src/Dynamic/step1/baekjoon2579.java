@@ -1,4 +1,4 @@
-package Dynamic;
+package Dynamic.step1;
 
 import java.util.*;
 

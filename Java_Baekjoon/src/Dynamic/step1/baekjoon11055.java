@@ -1,4 +1,4 @@
-package Dynamic;
+package Dynamic.step1;
 import java.util.*;
 /*
 * 가장 큰 증가 부분 수열
