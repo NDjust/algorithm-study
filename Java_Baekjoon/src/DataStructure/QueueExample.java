@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 /*baekjoon algorithms
 * https://www.acmicpc.net/problem/10845 */
-public class queue {
+public class QueueExample {
     public static void main(String[] args) {
 
         Scanner sc = new Scanner(System.in);
