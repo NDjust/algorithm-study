@@ -5,6 +5,7 @@
 *.project*
 *.iml*
 .idea/codeStyles/
+*out*
 out/production/Algorithms/Basic/
 out/production/Algorithms/BruteForce/
 out/production/Algorithms/DataStructure/baekjoon10773.class
