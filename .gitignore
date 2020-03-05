@@ -3,7 +3,7 @@
 *bin*
 *.classpath*
 *.project*
-*Algorithms.iml*
+*.iml*
 .idea/codeStyles/
 out/production/Algorithms/Basic/
 out/production/Algorithms/BruteForce/
