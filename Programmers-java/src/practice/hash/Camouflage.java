@@ -1,9 +1,8 @@
 package practice.hash;
 
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Set;
 
+// https://programmers.co.kr/learn/questions/3685
 public class Camouflage {
 
     public static int solution(String[][] clothes) {
