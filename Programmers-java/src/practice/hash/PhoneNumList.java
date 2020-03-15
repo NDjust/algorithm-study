@@ -23,6 +23,7 @@ public class PhoneNumList {
 
         return answer;
     }
+
     public static void main(String[] args) {
         String[] phone = {"12", "123", "1235", "567", "88"};
         System.out.println(solution(phone));
