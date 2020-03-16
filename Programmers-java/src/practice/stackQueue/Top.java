@@ -1,4 +1,4 @@
-package practice.stack;
+package practice.stackQueue;
 
 public class Top {
 
