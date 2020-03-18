@@ -1,8 +1,6 @@
 package practice.hash;
 
 import java.util.*;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
 public class UncompletedPeople {
 
