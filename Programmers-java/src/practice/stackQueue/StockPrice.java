@@ -5,7 +5,6 @@ public class StockPrice {
     public static int[] solution(int[] prices) {
         int[] answer = new int[prices.length];
 
-        int k = 0;
         for (int i = 0; i < answer.length - 1; i++) {
             int sec = 0;
 
@@ -15,7 +14,7 @@ public class StockPrice {
                     break;
                 }
             }
-            answer[k++] = sec;
+            answer[i] = sec;
         }
 
         return answer;
