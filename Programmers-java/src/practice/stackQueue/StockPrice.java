@@ -19,6 +19,7 @@ public class StockPrice {
 
         return answer;
     }
+
     public static void main(String[] args) {
 
         int[] p = {1, 2, 3, 2, 3};
