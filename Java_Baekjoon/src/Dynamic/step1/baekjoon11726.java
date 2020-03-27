@@ -2,14 +2,11 @@ package Dynamic.step1;
 
 import java.util.Scanner;
 
-public class Tiling {
+public class baekjoon11726 {
     public static void main(String[] args) {
-
         Scanner sc = new Scanner(System.in);
-
         int[] d = new int[10001];
         int num = sc.nextInt();
-
         d[0] = 1;
         d[1] = 1;
 
