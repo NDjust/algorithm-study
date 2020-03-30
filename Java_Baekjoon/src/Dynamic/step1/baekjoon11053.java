@@ -22,35 +22,33 @@ import java.util.*;
 * 예제 출력
 * 4
 * * */
-public class baekjoon_11053 {
+public class baekjoon11053 {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        int input_num = Integer.valueOf(sc.nextLine());
-        int a[] = new int[input_num];
-        int d[] = new int[input_num];
+        int n = sc.nextInt();
+        int a[] = new int[n];
+        int d[] = new int[n];
 
-        for (int i = 0; i < input_num; i++) {
+        for (int i = 0; i < n; i++) {
             a[i] = sc.nextInt();
         }
 
-        for (int i = 0; i < input_num; i++) {
+        for (int i = 0; i < n; i++) {
             d[i] = 1;
             for (int j = 0; j < i; j++) {
-                if (a[j] < a[i] && d[i] < d[j]  + 1) {
+                if (a[j] < a[i] && d[i] < d[j] + 1) {
                     d[i] = d[j] + 1;
                 }
             }
         }
 
-        int max_length = 1;
+        int ans = d[0];
 
-        for (int i = 0; i < input_num; i++) {
-            if (d[i] > max_length) {
-                max_length = d[i];
-            }
+        for (int i = 1; i <= n; i++) {
+            ans = Math.max(ans, d[i]);
         }
 
-        System.out.printf("%d", max_length);
+        System.out.println(ans);
     }
 }
 
