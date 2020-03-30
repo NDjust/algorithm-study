@@ -28,9 +28,9 @@ public class baekjoon9465 {
             }
             long[][] d = new long[n+1][3];
             for (int i=1; i<=n; i++) {
-                d[i][0] = Math.max(d[i-1][0],Math.max(d[i-1][1],d[i-1][2]));
-                d[i][1] = Math.max(d[i-1][0],d[i-1][2])+a[i][0];
-                d[i][2] = Math.max(d[i-1][0],d[i-1][1])+a[i][1];
+                d[i][0] = Math.max(d[i-1][0],Math.max(d[i-1][1],d[i-1][2])); // 뜯지 않음
+                d[i][1] = Math.max(d[i-1][0],d[i-1][2])+a[i][0]; // 위쪽 스티커 뜯음
+                d[i][2] = Math.max(d[i-1][0],d[i-1][1])+a[i][1]; // 아래쪽 스티커 뜯음
             }
             long ans = 0;
             ans = Math.max(d[n][0], Math.max(d[n][1], d[n][2]));
