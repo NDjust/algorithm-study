@@ -15,7 +15,10 @@ public class baekjoon2156 {
         }
 
         d[1] = a[1];
-        d[2] = a[1] + a[2];
+
+        if (n >= 2) {
+            d[2] = a[1] + a[2];
+        }
 
         for (int i = 3; i <= n; i++) {
             d[i] = d[i-1]; // i 번째 잔 마시지 x
@@ -28,7 +31,12 @@ public class baekjoon2156 {
             }
         }
 
-        System.out.println(d[n]);
+        int ans = d[1];
+
+        for (int i = 2; i <= n; i++) {
+            ans = Math.max(ans, d[i]);
+        }
+        System.out.println(ans);
 
     }
 }
