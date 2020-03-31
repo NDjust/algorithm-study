@@ -26,32 +26,32 @@ import java.util.*;
 public class baekjoon11055 {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        int input_num = Integer.valueOf(sc.nextLine());
-        int a[] = new int[input_num];
-        int d[] = new int[input_num];
+        int n = Integer.valueOf(sc.nextLine());
+        int a[] = new int[n];
+        int d[] = new int[n];
 
-        for (int i = 0; i < input_num; i++) {
+        for (int i = 0; i < n; i++) {
             a[i] = sc.nextInt();
         }
 
-        for (int i = 0; i < input_num; i++) {
+        for (int i = 0; i < n; i++) {
             d[i] = a[i];
-            for (int j = 0; j < input_num; j++) {
+            for (int j = 0; j < n; j++) {
                 if (a[j] < a[i] && d[i] < d[j] + a[i]) {
                     d[i] = d[j] + a[i];
                 }
             }
         }
 
-        int max_sum = a[0];
+        int maxSum = a[0];
 
-        for (int i = 0; i < input_num; i++) {
-            if (max_sum < d[i]) {
-                max_sum = d[i];
+        for (int i = 0; i < n; i++) {
+            if (maxSum < d[i]) {
+                maxSum = d[i];
             }
         }
 
-        System.out.printf("%d", max_sum);
+        System.out.println(maxSum);
     }
 
 }

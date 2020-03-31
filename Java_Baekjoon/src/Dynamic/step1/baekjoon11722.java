@@ -27,29 +27,29 @@ public class baekjoon11722 {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
-        int input_num = Integer.valueOf(sc.nextLine());
-        int a[] = new int[input_num];
-        int d[] = new int[input_num];
+        int n = Integer.valueOf(sc.nextLine());
+        int a[] = new int[n];
+        int d[] = new int[n];
 
-        for (int i = 0; i < input_num; i++) {
+        for (int i = 0; i < n; i++) {
             a[i] = sc.nextInt();
         }
 
-        for (int i = input_num - 1; i > -1; i--) {
+        for (int i = n - 1; i > -1; i--) {
             d[i] = 1;
-            for (int j = input_num - 1; j > i; j--) {
+            for (int j = n - 1; j > i; j--) {
                if (a[i] > a[j] && d[i] < d[j] + 1 ){
                    d[i] = d[j] + 1;
                 }
             }
         }
-        int max_length = 1;
+        int maxLength = 1;
 
-        for (int i = 0; i < input_num; i++) {
-            if (max_length < d[i]) {
-                max_length = d[i];
+        for (int i = 0; i < n; i++) {
+            if (maxLength < d[i]) {
+                maxLength = d[i];
             }
         }
-        System.out.printf("%d", max_length);
+        System.out.println(maxLength);
     }
 }
