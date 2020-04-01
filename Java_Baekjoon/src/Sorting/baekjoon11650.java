@@ -1,37 +1,34 @@
 package Sorting;
 
-import java.util.Arrays;
-import java.util.Scanner;
-import java.util.Comparator;
+import java.util.*;
 
 public class baekjoon11650 {
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
-        int[][] xy= new int[n][2];
+        List<List<Integer>> xy = new ArrayList<>();
 
-        for(int i = 0; i < n; i++) {
-            xy[i][0] = sc.nextInt();
-            xy[i][1] = sc.nextInt();
+        for (int i = 0; i < n; i++) {
+            List<Integer> a = new ArrayList<>();
+            a.add(sc.nextInt());
+            a.add(sc.nextInt());
+            xy.add(a);
         }
 
-        Arrays.sort(xy, new Comparator<int[]>(){
+        xy.sort(new Comparator<List<Integer>>() {
             @Override
-            public int compare(int[] a, int[] b) {
-                if (a[0] == b[0]) {
-                    return a[1] - b[1];
+            public int compare(List<Integer> t1, List<Integer> t2) {
+                if (t1.get(0).equals(t2.get(0))) {
+                    return t1.get(1) - t2.get(1);
                 } else {
-                    return a[0] - b[0];
+                    return t1.get(0) - t2.get(0);
                 }
             }
         });
 
         for (int i = 0; i < n; i++) {
-            System.out.printf("%d %d\n", xy[i][0], xy[i][1]);
+            System.out.printf("%d %d\n", xy.get(i).get(0), xy.get(i).get(1));
         }
-
-
-
     }
 }
