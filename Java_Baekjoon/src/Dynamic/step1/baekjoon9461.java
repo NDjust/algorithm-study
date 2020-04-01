@@ -1,16 +1,15 @@
 package Dynamic.step1;
-import java.lang.reflect.Array;
 import java.util.*;
 
 public class baekjoon9461 {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
 
-        long[] d = {0, 1, 1, 1, 2, 2, 3, 4, 5, 7, 9};
+    public static void main(String args[]) {
+        Scanner sc = new Scanner(System.in);
+        long[] d = {0,1,1,1,2,2,3,4,5,7,9};
         d = Arrays.copyOf(d, 101);
 
-        for (int i= 10; i <= 100; i++) {
-            d[i] = d[i - 1] + d[i - 5];
+        for (int i=10; i<=100; i++) {
+            d[i] = d[i-1] + d[i-5];
         }
 
         int t = sc.nextInt();
