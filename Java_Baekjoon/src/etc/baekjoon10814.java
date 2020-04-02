@@ -8,53 +8,48 @@ public class baekjoon10814 {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
-        HashMap<String, Integer> a = new HashMap<>();
+        List<User> users = new ArrayList<>();
         for (int i = 0; i < n; i++) {
-            int k = sc.nextInt();
-            String str = sc.next();
-
-            a.put(str, k);
+            users.add(new User(sc.nextInt(), sc.next()));
         }
 
+        Collections.sort(users);
 
-        TreeMap<String, Integer> sortedMap = sortMapByValue(a);
-
-        Set<String> strings = sortedMap.keySet();
-        Iterator<String> iterator = strings.iterator();
-        Iterator<Integer> values = sortedMap.values().iterator();
-
-        while (iterator.hasNext()) {
-            String s = iterator.next();
-            int k = values.next();
-            System.out.printf("%d %s\n", k, s);
+        for (int i = 0; i < n; i++) {
+            System.out.println(users.get(i).getAge() + " " + users.get(i).getName());
         }
-    }
-
-    public static TreeMap<String, Integer> sortMapByValue(HashMap<String, Integer> map){
-        Comparator<String> comparator = new ValueComparator(map);
-        //TreeMap is a map sorted by its keys.
-        //The comparator is used to sort the TreeMap by keys.
-        TreeMap<String, Integer> result = new TreeMap<String, Integer>(comparator);
-        result.putAll(map);
-        return result;
     }
 }
 
-// a comparator that compares Strings
-class ValueComparator implements Comparator<String>{
+class User implements Comparable<User> {
 
-    HashMap<String, Integer> map = new HashMap<String, Integer>();
+    public int age;
+    public String name;
 
-    public ValueComparator(HashMap<String, Integer> map){
-        this.map.putAll(map);
+    public User(int age, String name) {
+        this.age = age;
+        this.name = name;
     }
 
     @Override
-    public int compare(String s1, String s2) {
-        if(map.get(s1) <= map.get(s2)){
-            return -1;
-        }else{
-            return 1;
-        }
+    public int compareTo(User user) {
+        return this.age - user.age;
+    }
+
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }
