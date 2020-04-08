@@ -18,21 +18,20 @@ public class baekjoon9613 {
 
         for (int i = 0; i < inputCases; i++) {
             int nums = sc.nextInt();
-            int testCases[] = new int[nums];
+            int testCase[] = new int[nums];
 
             long gcd_sum = 0;
 
             for (int j = 0; j < nums; j++) {
-                testCases[j] = sc.nextInt();
+                testCase[j] = sc.nextInt();
             }
 
             for (int k = 0; k < nums - 1; k++) {
                 for (int l = k + 1; l < nums; l++) {
-                    gcd_sum += gcd(testCases[k], testCases[l]);
+                    gcd_sum += gcd(testCase[k], testCase[l]);
                 }
             }
             System.out.println(gcd_sum);
-            sc.nextLine();
         }
     }
 
