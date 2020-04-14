@@ -70,7 +70,9 @@ public class GraphPractice {
         visited[r] = true;
         System.out.println(r);
         for (Integer integer : graph.get(r)) {
-            dfsRecursive(integer);
+            if (!visited[integer]) {
+                dfsRecursive(integer);
+            }
         }
     }
 
