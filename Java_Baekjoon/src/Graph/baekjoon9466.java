@@ -14,8 +14,6 @@ public class baekjoon9466 {
 
     public static boolean[] finished;
 
-    public static ArrayList<Integer> visitedValue;
-
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
