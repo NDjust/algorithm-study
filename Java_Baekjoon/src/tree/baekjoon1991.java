@@ -3,57 +3,58 @@ package tree;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
-
+import java.util.StringTokenizer;
 
 public class baekjoon1991 {
-    private static HashMap<String, ArrayList<String>> binaryTree = new HashMap<>();
 
-    private static void preOrder(String v) {
-        if (v.equals(".")) {
+    private static HashMap<String, ArrayList<String>> hashMap = new HashMap<>();
+
+    private static void preorder(String node) {
+        if (node.equals(".")) {
             return;
         }
-        System.out.printf("%s", v);
-        preOrder(binaryTree.get(v).get(0));
-        preOrder(binaryTree.get(v).get(1));
+        System.out.printf("%s", node);
+        preorder(hashMap.get(node).get(0));
+        preorder(hashMap.get(node).get(1));
     }
 
-    private static void inorder(String v) {
-        if (v.equals(".")) {
+    private static void inorder(String node) {
+        if (node.equals(".")) {
             return;
         }
-        inorder(binaryTree.get(v).get(0));
-        System.out.printf("%s", v);
-        inorder(binaryTree.get(v).get(1));
+        inorder(hashMap.get(node).get(0));
+        System.out.printf("%s", node);
+        inorder(hashMap.get(node).get(1));
     }
 
-    private static void postorder(String v) {
-        if (v.equals(".")) {
+    private static void postorder(String node) {
+        if (node.equals(".")) {
             return;
         }
-
-        postorder(binaryTree.get(v).get(0));
-        postorder(binaryTree.get(v).get(1));
-        System.out.printf("%s", v);
+        postorder(hashMap.get(node).get(0));
+        postorder(hashMap.get(node).get(1));
+        System.out.printf("%s", node);
     }
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
+        StringTokenizer st;
         int n = Integer.parseInt(sc.nextLine());
 
         for (int i = 0; i < n; i++) {
-            String[] nodes = sc.nextLine().split(" ");
+            st = new StringTokenizer(sc.nextLine());
+            String node = st.nextToken();
+            String left = st.nextToken();
+            String right = st.nextToken();
             ArrayList<String> leftRight = new ArrayList<>();
-            leftRight.add(nodes[1]);
-            leftRight.add(nodes[2]);
-            binaryTree.put(nodes[0], leftRight);
+            leftRight.add(left); leftRight.add(right);
+            hashMap.put(node, leftRight);
         }
-        preOrder("A");
+        preorder("A");
         System.out.println();
         inorder("A");
         System.out.println();
         postorder("A");
+
     }
 }
-
-
-
