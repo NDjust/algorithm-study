@@ -1,42 +1,53 @@
 package binarySearch;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.Scanner;
+import java.util.StringTokenizer;
 
 public class baekjoon1654 {
 
-    public static boolean check(long[] a, int m, long x) {
-        int cnt = 0;
-        for (int i = 0; i < a.length; i++) {
-            cnt += a[i] / x;
-        }
-        return cnt >= m;
-    }
+    static long[] lineLength;
 
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int k = sc.nextInt();
-        int n = sc.nextInt();
-        long[] lan = new long[k];
-        long max = 0;
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        int k = Integer.parseInt(st.nextToken());
+        int n = Integer.parseInt(st.nextToken());
+        long maxLength = 0;
+        lineLength = new long[k];
+
         for (int i = 0; i < k; i++) {
-            lan[i] = sc.nextLong();
-            max = Math.max(max, lan[i]);
+            lineLength[i] = Long.parseLong(br.readLine());
+            maxLength = Math.max(maxLength, lineLength[i]);
         }
 
-        long l = 0;
-        long r = max;
+        long left = 1;
+        long right = maxLength;
         long ans = 0;
 
-        while (l <= r) {
-            long mid = (l + r) / 2;
-            if (check(lan, n, mid)) {
+        while (left <= right) {
+            long mid = (left+right) / 2;
+
+            if (check(mid, k, n)) {
                 ans = Math.max(ans, mid);
-                l = mid + 1;
+                left = mid + 1;
             } else {
-                r = mid - 1;
+                right = mid - 1;
             }
         }
         System.out.println(ans);
+    }
+
+    public static boolean check(long mid, int k, int n) {
+        int cnt = 0;
+
+        for (int i = 0; i < k; i++) {
+            cnt += lineLength[i] / mid;
+        }
+
+        return cnt >= n;
     }
 }
