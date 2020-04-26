@@ -1,46 +1,54 @@
 package binarySearch;
 
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 
 public class baekjoon2805 {
+    private static long[] trees;
 
-    public static boolean check(long[] a, long m, long x) {
-        long sum = 0;
+    private static long n;
 
-        for (int i = 0; i < a.length; i++) {
-            if (a[i] - x > 0) {
-                sum += a[i] - x;
-            }
-        }
-
-        return sum >= m;
-    }
-
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        long m = sc.nextLong();
-        long[] a = new long[n];
-        long l = 0;
-        long r = 0;
-        long ans = 0;
+    private static long m;
+    private static boolean check(long cutLength) {
+        long cnt = 0;
 
         for (int i = 0; i < n; i++) {
-            a[i] = sc.nextLong();
-            r = Math.max(r, a[i]);
-        }
-
-        while (l <= r) {
-            long mid = (l + r) / 2;
-
-            if (check(a, m, mid)) {
-                ans = Math.max(ans, mid);
-                l = mid + 1;
-            } else {
-                r = mid - 1;
+            if (trees[i] - cutLength > 0) {
+                cnt = cnt + (trees[i] - cutLength);
             }
         }
 
+        return cnt >= m;
+    }
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        long maxLengthTree = 0;
+        n = Long.parseLong(st.nextToken());
+        m = Long.parseLong(st.nextToken());
+        trees = new long[(int) n];
+        st = new StringTokenizer(br.readLine());
+        for (int i = 0; i < n; i++) {
+            trees[i] = Long.parseLong(st.nextToken());
+            maxLengthTree = Math.max(maxLengthTree, trees[i]);
+        }
+
+        long left = 1;
+        long right = maxLengthTree;
+        long ans = 0;
+        while (right >= left) {
+            long mid = (right + left) / 2;
+
+            if (check(mid)) {
+                ans = Math.max(ans, mid);
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
         System.out.println(ans);
     }
 }
