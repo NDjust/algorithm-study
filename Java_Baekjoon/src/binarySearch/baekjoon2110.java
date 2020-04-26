@@ -1,44 +1,53 @@
 package binarySearch;
 
-import java.util.Arrays;
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.*;
 
 public class baekjoon2110 {
 
-    public static boolean possible(int[] a, int c, int mid) {
+    static int n;
+    static int c;
+    static List<Integer> list;
+
+    private static boolean isOk(int mid) {
         int cnt = 1;
-        int last = a[0];
-        for (int house : a) {
-            if (house - last >= mid) {
-                cnt += 1;
-                last = house;
+        int last = list.get(0);
+
+        for (Integer value : list) {
+            if (value- last >= mid) {
+                cnt++;
+                last = value;
             }
         }
         return cnt >= c;
     }
 
-    public static void main(String args[]) {
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        int c = sc.nextInt();
-        int[] a = new int[n];
+    public static void main(String args[]) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        n = Integer.parseInt(st.nextToken());
+        c = Integer.parseInt(st.nextToken());
+        list = new ArrayList<>();
 
-        for (int i=0; i<n; i++) {
-            a[i] = sc.nextInt();
+        for (int i = 0; i < n; i++) {
+            list.add(Integer.parseInt(br.readLine()));
         }
-        Arrays.sort(a);
+        // sorting
+        Collections.sort(list);
 
-        int ans = 1;
-        int l = 1;
-        int r = a[n-1]-a[0];
+        int left = 1;
+        int right = list.get(list.size()-1) - list.get(0);
+        int ans = 0;
 
-        while (l <= r) {
-            int mid = (l+r)/2;
-            if (possible(a, c, mid)) {
-                ans = Math.max(ans,mid);
-                l = mid+1;
+        while (right >= left) {
+            int mid = (right+left) / 2;
+            if (isOk(mid)) {
+                ans = Math.max(ans, mid);
+                left = mid + 1;
             } else {
-                r = mid-1;
+                right = mid - 1;
             }
         }
         System.out.println(ans);
