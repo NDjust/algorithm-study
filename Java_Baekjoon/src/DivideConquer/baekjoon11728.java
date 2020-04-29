@@ -6,49 +6,44 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Scanner;
+import java.util.StringTokenizer;
 
 public class baekjoon11728 {
 
     public static void main(String[] args) throws IOException {
-        // 입력 메모리 초과로 Scanner -> BufferReader 로 대체해서 입력을 받야함.
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        String[] line = br.readLine().split(" ");
-        int n = Integer.valueOf(line[0]);
-        int m = Integer.valueOf(line[1]);
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        int n = Integer.parseInt(st.nextToken());
+        int m = Integer.parseInt(st.nextToken());
+        int[] arr1 = new int[n];
+        int[] arr2 = new int[m];
+        st = new StringTokenizer(br.readLine());
 
-        int[] a = new int[n];
-        int[] b = new int[m];
-
-        line = br.readLine().split(" ");
         for (int i = 0; i < n; i++) {
-            a[i] = Integer.valueOf(line[i]);
+            arr1[i] = Integer.parseInt(st.nextToken());
         }
 
-
-        line = br.readLine().split(" ");
+        st = new StringTokenizer(br.readLine());
         for (int i = 0; i < m; i++) {
-            b[i] = Integer.valueOf(line[i]);
+            arr2[i] = Integer.parseInt(st.nextToken());
         }
-
-        int[] c = new int[n + m];
-
+        int[] ans = new int[n + m];
         {
             int i = 0;
             int j = 0;
             int k = 0;
 
             while (i < n || j < m) {
-                if (j >= m || (i < n && a[i] <= b[j])) {
-                    c[k++] = a[i++];
+                if (i >= n || (j < m && arr1[i] > arr2[j])) {
+                    ans[k++] = arr2[j++];
                 } else {
-                    c[k++] = b[j++];
+                    ans[k++] = arr1[i++];
                 }
             }
         }
         StringBuilder sb = new StringBuilder();
-
-        for (int i = 0; i < n + m; i++) {
-            sb.append(c[i] + " ");
+        for (int an : ans) {
+            sb.append(an + " ");
         }
         System.out.println(sb);
     }
