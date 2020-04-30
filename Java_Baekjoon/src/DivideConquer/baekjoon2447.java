@@ -6,36 +6,35 @@ import java.util.Scanner;
 
 public class baekjoon2447 {
 
-    static char BLACK = ' ';
+    static char BLANK = ' ';
     static char STAR = '*';
 
     public static void go(char[][] a, int x, int y, int n, char color) {
-        if (color == BLACK) {
-            for (int i = x; i < x + n; i++) {
-                for (int j = y; j < y + n; j++) {
-                    a[i][j] = BLACK;
+        if (color == BLANK) {
+            for (int i = x; i < x+n; i++) {
+                for (int j = y; j < y+n; j++) {
+                    a[i][j] = BLANK;
                 }
             }
         } else {
-            if (n == 1) {
+            if (n==1) {
                 a[x][y] = STAR;
             } else {
                 char newColor = STAR;
                 int m = n / 3;
+
                 for (int i = 0; i < 3; i++) {
                     for (int j = 0; j < 3; j++) {
-                        if (i == 1 && j == 1) {
-                            newColor = BLACK;
+                        if (i == 1 & j == 1) {
+                            newColor = BLANK;
                         } else {
                             newColor = STAR;
                         }
-
-                        go(a, x + m * i, y + m * j, m, newColor);
+                        go(a, x+m*i, y+m*j, m, newColor);
                     }
                 }
             }
         }
-
     }
 
     public static void main(String[] args) {
