@@ -4,51 +4,55 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Scanner;
+import java.util.StringTokenizer;
 
 public class baekjoon1780 {
 
-    public static boolean same(int[][] a, int x, int y, int n) {
-        for (int i = x; i < x + n; i++) {
-            for (int j = y; j < y + n; j++) {
-                if (a[x][y] != a[i][j]) {
+    private static int[] ansNum = new int[3];
+
+    private static boolean isSame(int x, int y, int n, int[][] matrix) {
+        for (int i = x; i < x+n; i++) {
+            for (int j = y; j < y+n; j++) {
+                if (matrix[x][y] != matrix[i][j]) {
                     return false;
                 }
-             }
+            }
         }
         return true;
     }
 
-    public static void solve(int[][] a, int[] cnt, int x, int y, int n) {
-        if (same(a, x ,y, n)) {
-            cnt[a[x][y] + 1] +=1 ;
+    private static void solve(int x, int y, int n, int[][] matrix) {
+        if (isSame(x, y, n, matrix)) {
+            ansNum[matrix[x][y]+1] += 1;
             return;
         }
         int m = n / 3;
 
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                solve(a, cnt, x + i * m, y + j * m, m);
+                solve(x+i*m, y+j*m, m, matrix);
             }
         }
     }
 
+
+
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        int n =  Integer.valueOf(br.readLine());
+        StringTokenizer st;
+        int n = Integer.parseInt(br.readLine());
         int[][] matrix = new int[n][n];
-        int[] cnt = new int[3];
 
         for (int i = 0; i < n; i++) {
-            String[] line = br.readLine().split(" ");
+            st = new StringTokenizer(br.readLine());
             for (int j = 0; j < n; j++) {
-                matrix[i][j] = Integer.valueOf(line[j]);
+                matrix[i][j] = Integer.parseInt(st.nextToken());
             }
         }
 
-        solve(matrix, cnt, 0, 0, n);
-
-        for (int i = 0; i < 3; i++) {
-            System.out.println(cnt[i]);
+        solve(0, 0, n, matrix);
+        for (int i = 0; i < ansNum.length; i++) {
+            System.out.println(ansNum[i]);
         }
     }
 }
