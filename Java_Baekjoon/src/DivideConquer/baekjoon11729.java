@@ -8,10 +8,9 @@ public class baekjoon11729 {
         if (n == 0) {
             return;
         }
-
-        solve(n - 1, x ,6 - x - y, sb);
+        solve(n-1, x, 6-x-y, sb);
         sb.append(x + " " + y + "\n");
-        solve(n - 1, 6 - x - y, y, sb);
+        solve(n-1, 6-x-y, y, sb);
     }
 
     public static void main(String[] args) {
