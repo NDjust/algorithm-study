@@ -7,18 +7,17 @@ public class baekjoon10610 {
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        char[] nums = sc.nextLine().toCharArray();
+        char[] arr = sc.nextLine().toCharArray();
         int sum = 0;
 
-        for (int i = 0; i < nums.length; i++) {
-            sum += nums[i] - '0';
+        for (int i = 0; i < arr.length; i++) {
+            sum += arr[i] - '0';
         }
+        Arrays.sort(arr);
 
-        Arrays.sort(nums);
-
-        if (nums[0] == '0' && sum % 3 == 0) {
-            for (int i = nums.length - 1; i >= 0; i--) {
-                System.out.print(nums[i]);
+        if (arr[0] == '0' && sum % 3 == 0) {
+            for (int i = arr.length-1; i >= 0; i--) {
+                System.out.print(arr[i]);
             }
             System.out.println();
         } else {
