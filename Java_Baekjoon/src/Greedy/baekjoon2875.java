@@ -11,13 +11,12 @@ public class baekjoon2875 {
         int k = sc.nextInt();
         int ans = 0;
 
-        while (n + m >= k + 3 && n >= 2 && m >= 1) {
+        while (n+m-3 >= k && m >= 1 && n >= 2) {
             n -= 2;
             m -= 1;
-            ans += 1;
+            ans++;
         }
 
         System.out.println(ans);
-
     }
 }
