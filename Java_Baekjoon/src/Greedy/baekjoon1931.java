@@ -3,51 +3,59 @@ package Greedy;
 // Runtime Error.
 // 배열 메모리 초과?..... -> 다시 해보기.
 
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.*;
+
+
+class Room implements Comparable<Room> {
+    int start;
+    int end;
+
+    public Room() {
+    }
+
+    public Room(int start, int end) {
+        this.start = start;
+        this.end = end;
+    }
+
+    @Override
+    public int compareTo(Room room) {
+        if (this.end == room.end) {
+            return this.start - room.start;
+        }
+        return this.end - room.end;
+    }
+}
 
 public class baekjoon1931 {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st;
 
-        int n = sc.nextInt();
-        int[][] rooms = new int[2][n + 1];
+        int n = Integer.parseInt(br.readLine());
+        List<Room> roomList = new ArrayList<>();
 
         for (int i = 0; i < n; i++) {
-            rooms[0][i] = sc.nextInt();
-            rooms[1][i] = sc.nextInt();
-            sc.nextLine();
+            st = new StringTokenizer(br.readLine());
+            int start = Integer.parseInt(st.nextToken());
+            int end = Integer.parseInt(st.nextToken());
+            roomList.add(new Room(start, end));
         }
 
-
-        for (int i = 0; i < n - 1; i++) {
-            for (int j = i + 1; j < n; j++) {
-                if (rooms[1][i] == rooms[1][j]) {
-                    if (rooms[0][i] > rooms[0][j]) {
-                        int[] tmp = rooms[i];
-                        rooms[i] = rooms[j];
-                        rooms[j] = tmp;
-                    }
-                } else {
-                    if (rooms[1][i] > rooms[1][j]) {
-                        int[] tmp = rooms[i];
-                        rooms[i] = rooms[j];
-                        rooms[j] = tmp;
-                    }
-                }
-
-            }
-        }
+        Collections.sort(roomList);
 
         int ans = 0;
         int now = 0;
 
-        for (int i = 0; i < n; i++) {
-            if (now <= rooms[0][i]) {
-                now = rooms[1][i];
+        for (Room room : roomList) {
+            if (now <= room.start) {
+                now = room.end;
                 ans++;
             }
         }
-
         System.out.println(ans);
     }
 
