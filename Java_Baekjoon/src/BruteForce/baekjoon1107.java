@@ -33,7 +33,6 @@ public class baekjoon1107 {
         int n = Integer.parseInt(sc.nextLine());
         int m = Integer.parseInt(sc.nextLine());
 
-
         for (int i = 0; i < m; i++) {
             int k = sc.nextInt();
             channel[k] = true;
