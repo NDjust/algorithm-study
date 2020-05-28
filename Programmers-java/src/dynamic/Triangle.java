@@ -1,15 +1,11 @@
 package dynamic;
 
-import java.util.Arrays;
-
 public class Triangle {
 
     private static int max = Integer.MIN_VALUE;
     private static int[][] cache;
-    private static int height;
 
     public static int solution(int[][] triangle) {
-        height = triangle.length;
         cache = new int[triangle.length][triangle.length];
 
         max = rootSum(0, 0, triangle);
