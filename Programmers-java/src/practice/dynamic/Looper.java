@@ -20,7 +20,7 @@ public class Looper {
         for (int i = 2; i < n; i++) {
             d2[i] = Math.max(d2[i-2] + money[i], d2[i-1]);
         }
-        answer = Math.max(d1[n-1], d2[n-1]);
+        answer = Math.max(d1[n-2], d2[n-1]);
         return answer;
     }
 
