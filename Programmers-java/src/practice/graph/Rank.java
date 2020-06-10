@@ -1,25 +1,77 @@
 package practice.graph;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
 public class Rank {
 
+    private int INF = 987654321;
 
-    private boolean[] losePlayerVisited;
-    private boolean[] winPlayerVisited;
+    // https://iamheesoo.github.io/blog/algo-prog49191
+    public int floydWarshallAlgorithms(int n, int[][] results) {
+        int answer = 0;
+        int[][] scores = new int[n+1][n+1];
+        int win, lose;
 
+        for (int[] score : scores) {
+            Arrays.fill(score, INF);
+        }
+
+        for (int i = 0; i < scores.length; i++) {
+            for (int j = 0; j < scores.length; j++) {
+                if (i == j) {
+                    scores[i][j] = 0;
+                }
+            }
+        }
+
+
+        for (int[] result : results) {
+            win = result[0];
+            lose = result[1];
+            scores[win][lose] = 1;
+        }
+
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= n; j++) {
+                for (int k = 1; k <= n; k++) {
+                    if (scores[j][k] > scores[j][i] + scores[i][k]) {
+                        scores[j][k] = scores[j][i] + scores[i][k];
+                    }
+                }
+            }
+        }
+
+
+        boolean[] flag = new boolean[n+1];
+        Arrays.fill(flag, true);
+
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= n; j++) {
+                if (i == j) continue;
+
+                if (scores[i][j] == INF && scores[j][i] == INF) {
+                    flag[i] = false;
+                    break;
+                }
+            }
+        }
+
+        for (int i = 1; i < flag.length; i++) {
+            if (flag[i]) {
+                answer++;
+            }
+        }
+        return answer;
+    }
 
     public int solution(int n, int[][] results) {
         int ans = 0;
-        List<List<Integer>> losePlayerList = new ArrayList<>();
-        List<List<Integer>> winnerPlayerList = new ArrayList<>();
+        List<HashSet<Integer>> losePlayerList = new ArrayList<>();
+        List<HashSet<Integer>> winnerPlayerList = new ArrayList<>();
 
         for (int i = 0; i <= n; i++) {
-            losePlayerList.add(new ArrayList<>());
-            winnerPlayerList.add(new ArrayList<>());
+            losePlayerList.add(new HashSet<>());
+            winnerPlayerList.add(new HashSet<>());
         }
 
         for (int[] result : results) {
@@ -29,37 +81,11 @@ public class Rank {
             losePlayerList.get(loser).add(winner);
         }
 
-        List<Integer> pullPlayer = new ArrayList<>();
         for (int i = 1; i <= n; i++) {
-            List<Integer> losePlayers = losePlayerList.get(i);
-            List<Integer> winPlayers = winnerPlayerList.get(i);
-            if (losePlayers.size() + winPlayers.size() == n-1) {
+            if (losePlayerList.get(i).size() + winnerPlayerList.get(i).size() == n - 1) {
                 ans++;
-                pullPlayer.add(i);
-
-                for (Integer losePlayer : losePlayers) {
-                    losePlayerVisited = new boolean[n+1];
-                    dfs(losePlayerList, losePlayer, losePlayerVisited);
-                    int rankCount = findRankCount(losePlayer, losePlayerList, losePlayerVisited);
-                    if (rankCount != 0) {
-                        ans += rankCount;
-                        break;
-                    }
-                }
-
-                for (Integer winPlayer : winPlayers) {
-                    winPlayerVisited = new boolean[n+1];
-                    dfs(winnerPlayerList, winPlayer, winPlayerVisited);
-                    int rankCount1 = findRankCount(winPlayer, winnerPlayerList, winPlayerVisited);
-
-                    if (rankCount1 != 0) {
-                        ans += rankCount1;
-                        break;
-                    }
-                }
             }
         }
-
 
         return ans;
     }
@@ -73,22 +99,12 @@ public class Rank {
         return player.get(r).size();
     }
 
-    // TODO 노드가 끊어진 경우 찾을 수 있도록 변환.
-    private void dfs(List<List<Integer>> player, int r, boolean[] visited) {
 
-        visited[r] = true;
-
-        for (Integer next : player.get(r)) {
-            if (!visited[next]) {
-                dfs(player, next, visited);
-            }
-        }
-    }
     public static void main(String[] args) {
         Rank rank = new Rank();
         int n = 5;
         int[][] results = new int[][]{{4,3}, {4,2}, {3,2}, {1,2}, {2,5}};
         int solution = rank.solution(n, results);
-        System.out.println(solution);
+        System.out.println(rank.floydWarshallAlgorithms(n, results));
     }
 }
