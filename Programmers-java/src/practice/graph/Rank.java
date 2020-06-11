@@ -1,6 +1,7 @@
 package practice.graph;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Rank {
 
@@ -66,23 +67,40 @@ public class Rank {
 
     public int solution(int n, int[][] results) {
         int ans = 0;
-        List<HashSet<Integer>> losePlayerList = new ArrayList<>();
-        List<HashSet<Integer>> winnerPlayerList = new ArrayList<>();
+        List<Set<Integer>> losePlayerList = new ArrayList<>();
+        List<Set<Integer>> winPlayerList = new ArrayList<>();
 
         for (int i = 0; i <= n; i++) {
             losePlayerList.add(new HashSet<>());
-            winnerPlayerList.add(new HashSet<>());
+            winPlayerList.add(new HashSet<>());
         }
 
         for (int[] result : results) {
             int winner = result[0];
             int loser = result[1];
-            winnerPlayerList.get(winner).add(loser);
+            winPlayerList.get(winner).add(loser);
             losePlayerList.get(loser).add(winner);
         }
 
         for (int i = 1; i <= n; i++) {
-            if (losePlayerList.get(i).size() + winnerPlayerList.get(i).size() == n - 1) {
+            Set<Integer> loseSet = losePlayerList.get(i);
+            Set<Integer> winSet = winPlayerList.get(i);
+
+            for (Iterator<Integer> iterator = loseSet.iterator(); iterator.hasNext();) {
+                Integer next = iterator.next();
+                winPlayerList.get(next).addAll(winSet);
+            }
+
+            for (Iterator<Integer> iterator = winSet.iterator(); iterator.hasNext();) {
+                Integer next = iterator.next();
+                losePlayerList.get(next).addAll(loseSet);
+            }
+
+        }
+
+        for (int i = 1; i <= n; i++) {
+            int i1 = losePlayerList.get(i).size() + winPlayerList.get(i).size();
+            if (i1 == n - 1) {
                 ans++;
             }
         }
@@ -90,21 +108,13 @@ public class Rank {
         return ans;
     }
 
-    private int findRankCount(int r, List<List<Integer>> player, boolean[] visited) {
-        for (Integer next : player.get(r)) {
-            if (!visited[next]) {
-                return 0;
-            }
-        }
-        return player.get(r).size();
-    }
-
-
     public static void main(String[] args) {
+
         Rank rank = new Rank();
         int n = 5;
         int[][] results = new int[][]{{4,3}, {4,2}, {3,2}, {1,2}, {2,5}};
         int solution = rank.solution(n, results);
+        System.out.println(solution);
         System.out.println(rank.floydWarshallAlgorithms(n, results));
     }
 }
