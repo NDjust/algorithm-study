@@ -1,13 +1,11 @@
 package practice.graph;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class Rank {
 
     private int INF = 987654321;
 
-    // https://iamheesoo.github.io/blog/algo-prog49191
     public int floydWarshallAlgorithms(int n, int[][] results) {
         int answer = 0;
         int[][] scores = new int[n+1][n+1];
