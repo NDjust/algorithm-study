@@ -12,8 +12,9 @@ public class baekjoon1476 {
         int e = 1;
         int s = 1;
         int m = 1;
+        int i = 1;
 
-        for (int i = 1;; i++) {
+        while (true){
 
             if (e == E && s == S && m == M) {
                 System.out.println(i);
@@ -35,6 +36,7 @@ public class baekjoon1476 {
             if (m == 20) {
                 m = 1;
             }
+            i++;
         }
     }
 }

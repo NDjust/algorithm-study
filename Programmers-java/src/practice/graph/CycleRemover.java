@@ -1,74 +1,184 @@
 package practice.graph;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
-public class CycleRemover {
+class CycleRemover {
 
-    private int nodeCount;
+    static int solution(int n, int[][] edges) {
+        // init graph
+        var g = new Graph(n, edges);
 
-    public int solution(int n, int[][] edges) {
-        nodeCount = n;
-        int ans = 0;
-        List<List<Integer>> nodes = new ArrayList<>();
+        // prune leaf nodes
+        g.prune();
 
-        for (int i = 0; i <= n; i++) {
-            nodes.add(new ArrayList<>());
+        // get nodes of max degree
+        var candidateNodes = g.getMaxDegreeNodes();
+        var untested = true;
+        var answer = 0;
+
+        for (var node : candidateNodes) {
+            if (untested) {
+                // do single test with first candidate node
+                g.removeNode(node);
+
+                // means all candidates are not answer
+                if (g.hasCycle()) break;
+
+                // means all candidates are answer
+                untested = false;
+            }
+
+            answer += node;
         }
 
-        for (int[] edge : edges) {
-            int node1 = edge[0];
-            int node2 = edge[1];
+        return answer;
+    }
 
-            nodes.get(node1).add(node2);
-            nodes.get(node2).add(node1);
-        }
+    static class Graph {
+        HashMap<Integer, HashSet<Integer>> adjList;
+        int size;
 
-        List<Integer> oddNodes = new ArrayList<>();
+        // make graph
+        Graph(int size, int[][] edges) {
+            // make adjacency list
+            this.size = size;
+            adjList = new HashMap<>(size);
+            var estimatedEdgesCapacity = (int) Math.ceil((double) edges.length*2/size);
+            for (var i=1; i<=size; i++) {
+                adjList.put(i, new HashSet<>(estimatedEdgesCapacity));
+            }
 
-        for (int i = 1; i <= n; i++) {
-            if (nodes.get(i).size() % 2 == 1) {
-                oddNodes.add(i);
+            // add edges
+            for(var edge : edges) {
+                var a = edge[0];
+                var b = edge[1];
+                adjList.get(a).add(b);
+                adjList.get(b).add(a);
             }
         }
 
-        for (Integer oddNode : oddNodes) {
-            if (!isCycle(nodes, oddNode)) {
-                ans += oddNode;
+        // prune leaf nodes
+        void prune() {
+            // nodes stack sorted by ascending degree
+            Stack<Integer> nodes = new Stack<>();
+            nodes.addAll(adjList.keySet());
+            nodes.sort(Comparator.comparingInt(a -> -adjList.get(a).size()));
+
+            while (!nodes.empty()) {
+                var node = nodes.pop();
+                var adjNodes = adjList.get(node);
+                if (adjNodes == null) continue; // already removed by neighbor
+
+                var size = adjNodes.size();
+                if (size == 0) continue;
+                if (size != 1) break;
+
+                // remove node from neighbor
+                var adjNode = adjNodes.iterator().next();
+                var adjAdjNodes = adjList.get(adjNode);
+                adjAdjNodes.remove(node);
+
+                // rearrange neighbor to top
+                if (adjAdjNodes.size() == 1) nodes.push(adjNode);
+
+                // remove node itself
+                adjList.remove(node);
             }
         }
 
-        return ans;
-    }
+        // detect cycle by union-find
+        boolean hasCycle() {
+            var set = new DisjointSet(this.size);
+            var visitedEdges = new HashSet<Integer>(this.size);
+            for (var entry : adjList.entrySet()) {
+                var node = entry.getKey();
 
-    private boolean isCycle(List<List<Integer>> nodes, int removeNode) {
-        int connectCountIsOneCount = 0;
-        for (int i = 1; i <= nodeCount; i++) {
-            if (i == removeNode) continue;
+                var adjNodes = entry.getValue();
+                for (var adjNode : adjNodes) {
+                    // already added edge?
+                    var edgeHash = node * this.size + adjNode;
+                    if (visitedEdges.contains(edgeHash)) continue;
 
-            List<Integer> list = nodes.get(i);
-            int connectCount = connectCountByRemove(list, removeNode);
-            connectCountIsOneCount += connectCount == 1 ? 1 : 0;
+                    // mark edge
+                    visitedEdges.add(edgeHash);
+                    visitedEdges.add(adjNode * this.size + node);
+
+                    if (set.find(node) == set.find(adjNode)) return true;
+                    set.union(node, adjNode);
+                }
+            }
+            return false;
         }
-        return connectCountIsOneCount != 2;
+
+        // get nodes of max degree
+        ArrayList<Integer> getMaxDegreeNodes() {
+            // nodes list sorted by descending degree
+            var nodes = new ArrayList<>(adjList.keySet());
+            nodes.sort(Comparator.comparingInt(a -> adjList.get(a).size()).reversed());
+
+            var maxDegreeNodes = new ArrayList<Integer>();
+            int maxDegree = 2; // nodes in cycle shall have 2 degree at minimum
+            for (var node : nodes) {
+                var degree = adjList.get(node).size();
+                if (degree >= maxDegree) {
+                    maxDegree = degree; // will not collect nodes of smaller degree than max degree
+                    maxDegreeNodes.add(node);
+                } else {
+                    break;
+                }
+            }
+
+            return maxDegreeNodes;
+        }
+
+        void removeNode(int node) {
+            var adjNodes = adjList.get(node);
+
+            // remove node from neighbors
+            for (var adjNode : adjNodes) {
+                adjList.get(adjNode).remove(node);
+            }
+
+            // remove node itself
+            adjList.remove(node);
+        }
     }
 
-    private int connectCountByRemove(List<Integer> list, int node) {
-        int count = 0;
-        for (Integer integer : list) {
-            if (node != integer) {
-                count++;
+    static class DisjointSet {
+        int[] parent;
+        DisjointSet(int maxNodeNum) {
+            parent = new int[maxNodeNum+1];
+            for (var i=1; i<=maxNodeNum; i++) parent[i] = -1;
+        }
+
+        void union(int a, int b) {
+            var ap = find(a);
+            var bp = find(b);
+            if (ap != bp) {
+                var sizeA = -parent[ap];
+                var sizeB = -parent[bp];
+                if (sizeA > sizeB) {
+                    parent[bp] = ap;
+                    parent[ap] -= sizeB;
+                } else {
+                    parent[ap] = bp;
+                    parent[bp] -= sizeA;
+                }
             }
         }
-        return count;
-    }
 
-    public static void main(String[] args) {
-        CycleRemover cycleRemover = new CycleRemover();
-        int n = 4;
-        int[][] edges = new int[][] {{1,2,}, {1,3}, {2,3}, {2,4}, {3,4}};
-        int solution = cycleRemover.solution(n, edges);
-        System.out.println(solution);
-
+        int find(int a) {
+            var p = a;
+            while (parent[p] > 0) p = parent[p];
+            if (p != a) {
+                var t = a;
+                while (parent[t] > 0) {
+                    var tp = parent[t];
+                    parent[t] = p;
+                    t = tp;
+                }
+            }
+            return p;
+        }
     }
 }

@@ -49,15 +49,13 @@ public class GraphPractice {
         Stack<Integer> stack = new Stack<>();
         stack.add(r);
         visited[r] = true;
-        System.out.println(r);
         while (!stack.isEmpty()) {
             int a = stack.pop();
-
+            System.out.println(a);
             for (Integer integer : graph.get(a)) {
                 if (!visited[integer]) {
                     visited[integer] = true;
                     stack.add(integer);
-                    System.out.println(integer);
                 }
             }
         }
