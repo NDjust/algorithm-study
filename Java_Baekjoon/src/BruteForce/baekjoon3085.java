@@ -1,6 +1,5 @@
 package BruteForce;
 
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class baekjoon3085 {
@@ -43,6 +42,11 @@ public class baekjoon3085 {
             if (dx < 0 || dy < 0 || dx >= n || dy >= n) {
                 continue;
             }
+
+            if (board[x][y] == board[dx][dy]) {
+                continue;
+            }
+
             swap(x, y, dx, dy);
             searchBoard();
             swap(dx, dy, x, y);
@@ -52,17 +56,15 @@ public class baekjoon3085 {
 
     private static void searchBoard() {
         for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                int cnt = Math.max(findSameCandyInRow(i, j), findSameCandyInCol(i, j));
+            int cnt = Math.max(findSameCandyInRow(i), findSameCandyInCol(i));
 
-                if (maxNum < cnt) {
-                    maxNum = cnt;
-                }
+            if (maxNum < cnt) {
+                maxNum = cnt;
             }
         }
     }
 
-    private static int findSameCandyInRow(final int x, final int y) {
+    private static int findSameCandyInRow(final int x) {
         int sameCount = 0;
         int maxSameCount = 0;
 
@@ -81,7 +83,7 @@ public class baekjoon3085 {
         return Math.max(sameCount, maxSameCount) + 1;
     }
 
-    private static int findSameCandyInCol(final int x, final int y) {
+    private static int findSameCandyInCol(final int y) {
         int sameCount = 0;
         int maxSameCount = 0;
 
