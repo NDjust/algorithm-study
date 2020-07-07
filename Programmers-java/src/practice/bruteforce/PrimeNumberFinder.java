@@ -1,4 +1,4 @@
-package practice.search;
+package practice.bruteforce;
 
 import java.util.HashSet;
 
