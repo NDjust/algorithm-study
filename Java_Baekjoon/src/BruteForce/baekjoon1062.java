@@ -8,7 +8,7 @@ public class baekjoon1062 {
 
     private static int maxReadWordCount = Integer.MIN_VALUE;
 
-    private static boolean[] visitedAlphabet = new boolean[26];
+    private static boolean[] learnedAlphabet = new boolean[26];
 
     private static String[] subWords;
 
@@ -38,11 +38,11 @@ public class baekjoon1062 {
 
             // antica는 무조건 나오니 미리 masking -> 20Ck-5로 복잡도가 확 줄게 됨.
             k -= 5;
-            visitedAlphabet[0] = true;
-            visitedAlphabet['c' - 'a'] = true;
-            visitedAlphabet['n' - 'a'] = true;
-            visitedAlphabet['t' - 'a'] = true;
-            visitedAlphabet['i' - 'a'] = true;
+            learnedAlphabet[0] = true;
+            learnedAlphabet['c' - 'a'] = true;
+            learnedAlphabet['n' - 'a'] = true;
+            learnedAlphabet['t' - 'a'] = true;
+            learnedAlphabet['i' - 'a'] = true;
 
 
             searchWords(0, 0);
@@ -53,20 +53,20 @@ public class baekjoon1062 {
 
     private static void searchWords(int idx, int cnt) {
         if (cnt == k) {
-            countReadWords();
+            updateMaxReadWordCount();
             return;
         }
 
         for (int i = idx; i <= 25; i++) {
-            if (!visitedAlphabet[i]) {
-                visitedAlphabet[i] = true;
+            if (!learnedAlphabet[i]) {
+                learnedAlphabet[i] = true;
                 searchWords(i, cnt + 1);
-                visitedAlphabet[i] = false;
+                learnedAlphabet[i] = false;
             }
         }
     }
 
-    private static void countReadWords() {
+    private static void updateMaxReadWordCount() {
         int canReadWordCount = 0;
         for (String word : subWords) {
 
@@ -83,7 +83,7 @@ public class baekjoon1062 {
     private static boolean canReadWord(final String word) {
         for (int i = 0; i < word.length(); i++) {
             int alphabetIdx = word.charAt(i) - 'a';
-            if (!visitedAlphabet[alphabetIdx]) {
+            if (!learnedAlphabet[alphabetIdx]) {
                 return false;
             }
         }
