@@ -9,9 +9,6 @@ public class Leetcode1415 {
     private List<String> happyStrings = new ArrayList<>();
     private char[] happyLetters = new char[]{'a', 'b', 'c'};
 
-    public Leetcode1415() {
-    }
-
     public String getHappyString(int n, int k) {
         searchKthString(n);
 
@@ -37,8 +34,6 @@ public class Leetcode1415 {
             selectedChar.append(happyLetter);
             searchKthString(n);
             selectedChar.delete(selectedChar.length()-1, selectedChar.length());
-
-
         }
     }
 
