@@ -13,12 +13,16 @@ public class baekjoon6915 {
 
     private static String[] alphabets;
 
+    // 방문 여부 체크하는 배열 생성.
     private static boolean[] visited;
 
     private static char[] vowels = new char[] {'a', 'e', 'i', 'o', 'u'};
+
+    // 방문한 알파벳을 담고 있는 StringBuilder
     private static StringBuilder chosenChar = new StringBuilder();
 
-    private static List<String> anwser = new ArrayList<>();
+    // 가능한 알파벳 조합을 가지고 있는 배열.
+    private static List<String> answer = new ArrayList<>();
 
 
     public static void main(String[] args) {
@@ -37,26 +41,29 @@ public class baekjoon6915 {
 
         backTracking(0, 0);
 
-        for (String s : anwser) {
+        for (String s : answer) {
             System.out.println(s);
         }
 
     }
 
     private static void backTracking(int idx, final int cnt) {
+        // 방문한 알파벳이 l개이면 종료.
         if (cnt == l) {
+            // 방문한 알파벳이 최소 한 개의 자음, 두 개의 모음을 가지고 있는지 확인.
             if (isPossible()) {
-                anwser.add(chosenChar.toString());
+                answer.add(chosenChar.toString());
             }
             return;
         }
 
-
+        // 정렬된 문자열로 구성해야하기 때문에 idx를 재귀 호출마다 증가할 수 있도록 설계.
         for (int i = idx; i < alphabets.length; i++) {
 
             if (visited[i]) {
                 continue;
             }
+
             visited[i] = true;
             chosenChar.append(alphabets[i]);
             backTracking(i+1,cnt + 1);
@@ -65,9 +72,11 @@ public class baekjoon6915 {
         }
     }
 
+    // 현재 만들어진 암호가 최소 모음 한 개, 자음 두 개가 존재하는지 확인.
     private static boolean isPossible() {
         int vowelsCount = 0;
         int consCount = 0;
+
         for (int i = 0; i < chosenChar.length(); i++) {
             if (isVowel(chosenChar.charAt(i))) {
                 vowelsCount++;
@@ -75,7 +84,6 @@ public class baekjoon6915 {
                 consCount++;
             }
         }
-
 
         return vowelsCount >= 1 && consCount >= 2;
     }
