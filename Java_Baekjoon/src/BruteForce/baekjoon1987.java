@@ -15,7 +15,7 @@ public class baekjoon1987 {
             int ny = y + dy[k];
 
             if (nx >= 0 && nx < board.length && ny >= 0 && ny < board[0].length()) {
-                if (check[board[nx].charAt(ny) - 'A'] == false) {
+                if (!check[board[nx].charAt(ny) - 'A']) {
                     check[board[nx].charAt(ny) - 'A'] = true;
                     int next = go(board, check, nx, ny);
 
