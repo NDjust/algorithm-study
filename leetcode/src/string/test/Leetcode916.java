@@ -3,11 +3,11 @@ package string.test;
 import java.util.*;
 
 public class Leetcode916 {
+
     public List<String> wordSubsets(String[] A, String[] B) {
        int[] bMaxCount = new int[26];
 
-        for (int i = 0; i < B.length; i++) {
-            String word = B[i];
+        for (String word : B) {
             int[] bCount = new int[26];
 
             for (char c : word.toCharArray()) {
@@ -20,6 +20,7 @@ public class Leetcode916 {
         }
 
         List<String> ans = new ArrayList<>();
+
         loop:
         for (String s : A) {
             int[] aCount = new int[26];
