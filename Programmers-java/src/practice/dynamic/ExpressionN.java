@@ -3,48 +3,49 @@ package practice.dynamic;
 import java.util.*;
 
 class ExpressionN {
-    public int solution(int N, int number) {
-        int answer = -1;
-        HashMap<Integer, HashSet<Integer>> map = new HashMap<>();
-        HashSet<Integer> s = new HashSet<>();
-        s.add(N);
-        map.put(1, s);
 
-        loop : for (int i = 2; i < 9; i++) {
-            HashSet<Integer> set = new LinkedHashSet<>();
+    static int _N;
+    TreeSet<Integer>[] dynamic;
 
-            int NNN = Integer.parseInt(Integer.toBinaryString((int) Math.pow(2, i) - 1)) * N;
 
-            if (NNN == number){
-                return i;
-            }
+    public TreeSet<Integer> solve(int n) {
+        if ((dynamic[n]!=null) &&!dynamic[n].isEmpty()) {
+            return dynamic[n];//전에 있던 집합 찾기.
+        }
+        int num = 0;
 
-            set.add(NNN);
+        for (int i = 0; i < n; i++) {
+            num = 10 * num + _N; // NNNN만들기.
+        }
 
-            for (int j = 1; j <= i / 2; j++) {
-                Iterator<Integer> it1 = map.get(j).iterator();
-                Iterator<Integer> it2 = map.get(i - j).iterator();
+        TreeSet<Integer> temp = new TreeSet<>();
 
-                while (it1.hasNext()) {
-                    int itValue1 = it1.next();
-                    while (it2.hasNext()) {
-                        int itValue2 = it2.next();
-                        for (Operator o : Operator.values()) {
-                            int calculate = o.calculate(itValue1, itValue2);
-                            if (calculate == number){
-                                answer = i;
-                                break loop;
-                            }
+        temp.add(num);
 
-                            set.add(calculate);
-                        }
+        for(int i =1; i<n;i++){
+            int j = n-i;
+            TreeSet<Integer> from = solve(i);
+            TreeSet<Integer> to = solve(j);
+            for(int n1:from) {
+                for (int n2 : to) {//d[n] = d[n-1] + d[i];
+                    for (Operator operator : Operator.values()) {
+                        temp.add(operator.calculate(n1, n2));
                     }
                 }
             }
-            map.put(i, set);
         }
+        return dynamic[n]= temp;
+    }
 
-        return answer;
+    public int solution(int N, int number) {
+        _N = N;
+
+        dynamic = new TreeSet[10];
+        for(int i =1 ; i<= 8; i++){
+            solve(i);
+            if (dynamic[i].contains(number)) return i;
+        }
+        return -1;
     }
 
     enum Operator {
