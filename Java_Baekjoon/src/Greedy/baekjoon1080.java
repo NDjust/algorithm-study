@@ -1,68 +1,70 @@
 package Greedy;
 
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class baekjoon1080 {
 
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-
-        String[] s = sc.nextLine().split(" ");
-        int n = Integer.parseInt(s[0]);
-        int m = Integer.parseInt(s[1]);
-
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String[] nm = br.readLine().split(" ");
+        int n = Integer.parseInt(nm[0]);
+        int m = Integer.parseInt(nm[1]);
         char[][] aMatrix = new char[n][m];
         char[][] bMatrix = new char[n][m];
-        int ans = 0;
 
         for (int i = 0; i < n; i++) {
-            String s1 = sc.nextLine();
-
-            for (int j = 0; j < s1.length(); j++) {
-                aMatrix[i][j] = s1.charAt(j);
+            String row = br.readLine();
+            for (int j = 0; j < m; j++) {
+                aMatrix[i][j] = row.charAt(j);
             }
         }
 
-
         for (int i = 0; i < n; i++) {
-            String s1 = sc.nextLine();
-
-            for (int j = 0; j < s1.length(); j++) {
-                bMatrix[i][j] = s1.charAt(j);
+            String row = br.readLine();
+            for (int j = 0; j < m; j++) {
+                bMatrix[i][j] = row.charAt(j);
             }
         }
 
-        for (int i = 0; i < n -2; i++) {
+        int count = 0;
+
+        for (int i = 0; i < n - 2; i++) {
+
             for (int j = 0; j < m - 2; j++) {
                 if (aMatrix[i][j] != bMatrix[i][j]) {
                     for (int k = i; k < i + 3; k++) {
-                        for (int l = j; l < j + 3 ; l++) {
+
+                        for (int l = j; l < j + 3; l++) {
                             if (aMatrix[k][l] == '1') {
                                 aMatrix[k][l] = '0';
-                            } else if (aMatrix[k][l] == '0'){
+                            } else if (aMatrix[k][l] == '0') {
                                 aMatrix[k][l] = '1';
                             }
                         }
                     }
-                    ans++;
+                    count++;
                 }
             }
         }
 
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < m; j++) {
-                if (aMatrix[i][j] != bMatrix[i][j]) {
-                    ans = -1;
-                }
-            }
+        if (!isSame(aMatrix, bMatrix)) {
+            count = -1;
         }
 
-
-        if (ans == -1) {
-            System.out.println(-1);
-        } else {
-            System.out.println(ans);
-        }
-
+        System.out.println(count);
     }
+
+    private static boolean isSame(final char[][] aMatrix, final char[][] bMatrix) {
+        for (int i = 0; i < aMatrix.length; i++) {
+            for (int j = 0; j < aMatrix[0].length; j++) {
+                if (aMatrix[i][j] != bMatrix[i][j]) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
 }
