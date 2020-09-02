@@ -1,9 +1,11 @@
 package kakao.prac;
 
 
+import java.util.Map;
+
 public class KeyPad {
 
-    static int[][] hands = {
+    static int[][] pad = {
             {' ', '1', '2', '3'},
             {' ', '4', '5', '6'},
             {' ', '7', '8', '9'},
@@ -12,56 +14,54 @@ public class KeyPad {
 
     public String solution(int[] numbers, String hand) {
         StringBuilder sb = new StringBuilder();
-        int L, R, dl, dr;
-        dr = dl = 0;
-        L = 10;
-        R = 12;
-        for (int i : numbers) {
-            if (i == 1 || i == 4 || i == 7) {
+        int left = 10;
+        int right = 12;
+
+        for (int number : numbers) {
+            number = number == 0 ? 11 : number;
+            if (number == 1 || number == 4 || number == 7) {
                 sb.append("L");
-                L = i;
-                continue;
-            } else if (i == 3 || i == 6 || i == 9) {
+                left = number;
+            } else if (number == 3 || number == 6 || number == 9) {
                 sb.append("R");
-                R = i;
-                continue;
-            }
-            if (i == 0) {
-                i = 11;
-            }
-            dl = getDistance(L, i);
-            dr = getDistance(R, i);
-            if (dl < dr) {
-                L = i;
-                sb.append("L");
-            } else if (dr < dl) {
-                R = i;
-                sb.append("R");
+                right = number;
             } else {
-                if (hand.equals("left")) {
-                    L = i;
+                int leftDis = getDistance(left, number);
+                int rightDis = getDistance(right, number);
+
+                if (leftDis < rightDis) {
                     sb.append("L");
-                } else {
-                    R = i;
+                    left = number;
+                } else if (leftDis > rightDis) {
                     sb.append("R");
+                    right = number;
+                } else {
+                    if (hand.equals("left")) {
+                        sb.append("L");
+                        left = number;
+                    } else {
+                        sb.append("R");
+                        right = number;
+                    }
                 }
             }
         }
         return sb.toString();
+
     }
 
     static int getDistance(int source, int dest) {
-        int r = dest / 3;
-        int c = dest % 3;
-        if (c == 0) {
-            c = 3;
-        }
-        int nr = source / 3;
-        int nc = source % 3;
-        if (nc == 0) {
-            nr--;
-            nc = 3;
-        }
-        return Math.abs(r - nr) + Math.abs(c - nc);
+      int sRow = source / 3;
+      int sCol = source % 3;
+
+      if (sCol == 0) {
+          sRow--;
+          sCol = 3;
+      }
+
+      int dRow = dest / 3;
+      int dCol = dest % 3;
+
+      return Math.abs(dRow - sRow) + Math.abs(dCol - sCol);
     }
 }
