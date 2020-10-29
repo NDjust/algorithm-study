@@ -22,7 +22,7 @@ public class Retiring {
         int[] dp = new int[n + 10];
         int max = 0;
 
-        for (int i = 1; i <= n + !; i++) {
+        for (int i = 1; i <= n + 1; i++) {
             dp[i] = Math.max(max, dp[i]);
             dp[i + T[i]] = Math.max(dp[i] + P[i], dp[i + T[i]]);
 
