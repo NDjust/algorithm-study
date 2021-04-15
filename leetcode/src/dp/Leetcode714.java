@@ -4,11 +4,14 @@ package dp;
 public class Leetcode714 {
 
     public int maxProfit(int[] prices, int fee) {
-        int cash = 0, hold = -prices[0];
+        int havingstock, nothavingstock;
+        havingstock = -prices[0];
+        nothavingstock = 0;
+
         for (int i = 1; i < prices.length; i++) {
-            cash = Math.max(cash, hold + prices[i] - fee);
-            hold = Math.max(hold, cash - prices[i]);
+            havingstock = Math.max(havingstock, nothavingstock - prices[i]);
+            nothavingstock = Math.max(nothavingstock, havingstock + prices[i] - fee);
         }
-        return cash;
+        return nothavingstock;
     }
 }
