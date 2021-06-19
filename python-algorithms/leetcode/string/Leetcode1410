@@ -1,0 +1,50 @@
+class Solution:
+    def entityParser(self, text: str) -> str:
+        stack = []
+        mark = {
+            '&quot;': '"',
+            '&apos;': "'",
+            '&amp;': '&',
+            '&gt;': '>',
+            '&lt;': '<',
+            '&frasl;': '/'
+        }
+
+        for i in range(len(text)):
+            ch = text[i]
+
+            if ch == ';':
+                parser = []
+                while stack[len(stack) - 1][0] != '&':
+                    parser = [stack.pop()] + parser
+
+                back = stack[len(stack) - 1]
+
+                if len(back) > 1:
+                    stack = stack + parser + [ch]
+                    continue
+
+                parser = [stack.pop()] + parser + [ch]
+
+                if "".join(parser) in mark.keys():
+                    if mark["".join(parser)] == '&':
+                        stack.append([mark["".join(parser)], "flag"])
+                    else:
+                        stack.append(mark["".join(parser)])
+                else:
+                    stack += parser
+            else:
+                stack.append(ch)
+
+        result = ""
+
+        for s in stack:
+            result += s[0]
+
+        return result
+
+
+if __name__ == '__main__':
+    s = Solution()
+    result = s.entityParser("&amp;amp;")
+    print(result)
